@@ -100,6 +100,7 @@ SO THAT my website can handle large amounts of unstructured data
                     "email": "bjackels5@gmail.com"  
                 }
             
+    * /api/users/:userId
         * PUT to update a user by its _id
         * DELETE to remove user by its _id
             * BONUS: Remove a user's associated thoughts when deleted.
