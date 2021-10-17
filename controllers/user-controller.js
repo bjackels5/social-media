@@ -1,12 +1,12 @@
-const { User } = require('../models');
+const { User, Thought } = require('../models');
 
 const userController = {
     getAllUser(req, res) {
         User.find({})
-            // .populate({
-            //     path: 'comments',
-            //     select: '-__v'
-            // })
+            .populate({
+                path: 'thoughts',
+                select: '-__v'
+            })
             .select('-__v')
             .sort({ _id: -1 })
             .then(dbData => res.json(dbData))
@@ -18,10 +18,10 @@ const userController = {
 
     getUserById({params}, res) {
         User.findOne({_id: params.id })
-        // .populate({
-        //     path: 'comments',
-        //     select: '-__v'
-        // })
+        .populate({
+            path: 'thoughts',
+            select: '-__v'
+        })
         .select('-__v')
         .then(dbData => {
             if (!dbData) {
@@ -62,6 +62,16 @@ const userController = {
             if (!dbData) {
                 res.status(404).json({ message: 'No User found with this id!' });
                 return;
+            }
+            if (dbData.thoughts) {
+                dbData.thoughts.forEach(thoughtId => {
+                    Thought.findOneAndDelete({ _id: thoughtId})
+                    .then(deletedThought => {
+                        if (!deletedThought) {
+                            return res.status(404).json({ message: 'No thoughts with this id!' });
+                        }
+                    })
+                });
             }
             res.json(dbData);
         })

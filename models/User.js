@@ -7,7 +7,7 @@ const UserSchema = new Schema(
     {
         username: {
             type: String,
-            unique: 'A user exists with this user name',
+            unique: true,
             required: 'Username is Required',
             trim: true
         },
@@ -18,7 +18,7 @@ const UserSchema = new Schema(
         },
         email: {
             type: String,
-            unique: "A user exists with this email address",
+            unique: true,
             required: 'Email is Required',
             match: [/^[a-z0-9\.-_]+@[a-z0-9\.-]+\.[a-z]{2,6}$/]
 

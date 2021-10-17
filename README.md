@@ -7,6 +7,8 @@ This challenge for Module 18 of the Coding Bootcamp is to build an API for a soc
 
 * [Requirements](#requirements)
 
+* [Requirement Corrections](#requirementCorrections)
+
 * [Technologies Used](#techUsed)
 
 * [What I Learned](#whatILearned)
@@ -91,7 +93,6 @@ SO THAT my website can handle large amounts of unstructured data
 * The following API Routes are required:
     * /api/users
         * GET all users
-        * GET a single user by its _id and populated thought and friend data
         * POST a new user:
 
                 // example data  
@@ -101,6 +102,7 @@ SO THAT my website can handle large amounts of unstructured data
                 }
             
     * /api/users/:userId
+        * GET a single user by its _id and populated thought and friend data
         * PUT to update a user by its _id
         * DELETE to remove user by its _id
             * BONUS: Remove a user's associated thoughts when deleted.
@@ -111,7 +113,6 @@ SO THAT my website can handle large amounts of unstructured data
 
     * /api/thoughts
         * GET to get all thoughts
-        * GET to get a single thought by its _id
         * POST to create a new thought (don't forget to push the created thought's _id to the associated user's thoughts array field)
 
 
@@ -121,14 +122,26 @@ SO THAT my website can handle large amounts of unstructured data
                     "username": "Brenda",  
                     "userId": "5edff358a0fcb779aa7b118b"
                 }
+    * /api/thoughts/:thoughtId
+        * GET a thought by its _id
         * PUT to update a thought by its _id
         * DELETE to remove a thought by its _id
 
     * /api/thoughts/:thoughtId/reactions
         * POST to create a reaction stored in a single thought's reactions array field
+    
+    * /api/thoughts/:thoughtId/:reactionId 
         * DELETE to pull and remove a reaction by the reaction's reactionId value
+            * the original requirements had DELETE under /api/thoughts/:thoughtId
+        * PUT to update a reaction by the reaction's reactionId value
 
+<a id="requirementCorrections"></a>
+## Requirement Corrections and Additions
 
+* Corrections:
+    * The requirements said that deleting a reaction should use route `/api/thoughts/:thoughtId/reactions`. But that route does not indicate which reaction to remove. I changed it to `/api/thoughts/:thoughtId:/:reactionId`.
+* Additions:
+    * Added functionality to update a reaction (DID I GET THIS WORKING?)
 ---
 
 <a id="techUsed"></a>
