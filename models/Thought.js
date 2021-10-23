@@ -28,7 +28,7 @@ const ReactionSchema = new Schema(
         toJSON: {
             getters: true
         },
-        id: false
+        _id: false
     }
 );
 
@@ -51,19 +51,18 @@ const ThoughtSchema = new Schema(
             default: Date.now,
             get: (createdAtVal) => dayjs(createdAtVal).format("MMM D, YYYY [at] h:mma")
         },
-        reactions: [ReactionSchema]
+        reactions: [ReactionSchema],
     },
     {
         toJSON: {
             virtuals: true,
             getters: true
-        },
-        id: false
+        }
     }
 );
 
-ThoughtSchema.virtual('reactionCount').get( () => {
-    return this.reactions ? this.reactions.length : 0;
+ThoughtSchema.virtual('reactionCount').get( function() {
+    return this.reactions.length;
 });
 
 const Thought = model('Thought', ThoughtSchema);

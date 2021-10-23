@@ -129,19 +129,25 @@ SO THAT my website can handle large amounts of unstructured data
 
     * /api/thoughts/:thoughtId/reactions
         * POST to create a reaction stored in a single thought's reactions array field
+        * GET all reactions to the thought specified by thoughtId (I added this to the requirements)
     
-    * /api/thoughts/:thoughtId/:reactionId 
+    * /api/thoughts/:thoughtId/reactions/:reactionId 
         * DELETE to pull and remove a reaction by the reaction's reactionId value
-            * the original requirements had DELETE under /api/thoughts/:thoughtId
-        * PUT to update a reaction by the reaction's reactionId value
+            * the original requirements had DELETE under /api/thoughts/:thoughtId/reactions
 
 <a id="requirementCorrections"></a>
 ## Requirement Corrections and Additions
 
 * Corrections:
-    * The requirements said that deleting a reaction should use route `/api/thoughts/:thoughtId/reactions`. But that route does not indicate which reaction to remove. I changed it to `/api/thoughts/:thoughtId:/:reactionId`.
+    * The requirements said that deleting a reaction should use route `/api/thoughts/:thoughtId/reactions`. But that route does not indicate which reaction to remove. I changed it to `/api/thoughts/:thoughtId:/reactions/:reactionId`.
 * Additions:
-    * Added functionality to update a reaction (DID I GET THIS WORKING?)
+    * According to the mockups shown in the requirements, adding a friend is a one sided thing. In the mockup, you can see that while lernantino has amiko in their friend list, lernantino is not in amiko's friend list. That's more like a 'follow' than a 'friend'. I made it work like friends: 
+        * adding a friendship means they are both listed in each other's friend list.
+        * deleting a user removes the deleted user from all friend lists.
+    * I added the ability to get all the reactions to a specific thought: GET on /api/thoughts/:thoughtId/reactions
+* Side Note:
+    * If a user creates a thought and then the user changes their username, the thought will have the original user name. Similarly for reactions. The thoughts and reactions should be saving the user's _id, and then populating the username based on the that _id.
+
 ---
 
 <a id="techUsed"></a>
@@ -152,6 +158,9 @@ SO THAT my website can handle large amounts of unstructured data
 * Node
 * Insomnia Core
 * Express.js
+* Express-session
+* dayjs
+* dotenv
 
 --- 
 
@@ -181,7 +190,7 @@ SO THAT my website can handle large amounts of unstructured data
 
 <a id="projectDemo"></a>
 
-<a href="https://youtu.be/TRyEJ-cYpcg">
+<a href="https://youtu.be/3WYoPJIcy2g">
    <img src="./media/social-media-demo.png">
 </a>
 
