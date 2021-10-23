@@ -1,6 +1,7 @@
 const { Schema, model, Types } = require('mongoose');
 const dayjs = require('dayjs');
 
+// Just creating the Schema for Reactions, no Model
 const ReactionSchema = new Schema(
     {
         reactionId: { // avoid confusion with parent comment _id
@@ -61,6 +62,7 @@ const ThoughtSchema = new Schema(
     }
 );
 
+// Note to self: do NOT change this to '.get( () => {' notation - you won't have access to 'this'.
 ThoughtSchema.virtual('reactionCount').get( function() {
     return this.reactions.length;
 });

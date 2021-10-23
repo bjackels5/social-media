@@ -1,6 +1,7 @@
 const { Thought, User } = require('../models');
 
 const thoughtController = {
+    // get all thoughts including the reactions
     getAllThought(req, res) {
         Thought.find({})
             .populate({
@@ -8,7 +9,6 @@ const thoughtController = {
                 select: '-__v'
             })
             .select('-__v')
-            // .sort({ _id: -1 })
             .then(dbData => res.json(dbData))
             .catch(err => {
                 console.log(err);
@@ -16,6 +16,7 @@ const thoughtController = {
             });
     },
 
+    // get one thought including the reactions
     getThoughtById({ params }, res) {
         Thought.findOne({ _id: params.thoughtId })
             .populate({
@@ -56,6 +57,7 @@ const thoughtController = {
             .catch(err => res.json(err));
     },
 
+    // update a thought
     updateThought({ params, body }, res) {
         Thought.findOneAndUpdate({ _id: params.thoughtId }, body, { new: true, runValidators: true })
             .then(dbData => {
@@ -68,6 +70,7 @@ const thoughtController = {
             .catch(err => res.json(err));
     },
 
+    // add a reaction to a thought
     addReaction({ params, body }, res) {
         Thought.findOneAndUpdate(
             { _id: params.thoughtId },
@@ -84,7 +87,7 @@ const thoughtController = {
             .catch(err => res.json(err));
     },
 
-    // remove a thought from a user
+    // remove a thought from the database. This will automatically delete it from the user's thoughts array
     removeThought({ params, body }, res) {
         Thought.findOneAndDelete({ _id: params.thoughtId })
             .then(deletedThought => {
@@ -108,6 +111,7 @@ const thoughtController = {
             .catch(err => res.json(err));
     },
 
+    // get all reactions for a specified thoughts
     getAllReactions({ params, body }, res) {
         Thought.findOne({ _id: params.thoughtId })
             .populate({

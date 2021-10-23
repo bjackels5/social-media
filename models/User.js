@@ -45,6 +45,7 @@ const UserSchema = new Schema(
     }
 );
 
+// Note to self: do NOT change this to '.get( () => {' notation - you won't have access to 'this'.
 UserSchema.virtual('friendCount').get( function() {
     // return this.friends? this.friends.length : 0;
     return this.friends.length;

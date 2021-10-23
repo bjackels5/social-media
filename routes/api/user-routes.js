@@ -5,22 +5,25 @@ const router = require('express').Router();
 // that I'm using a function from another file
 const uc = require('../../controllers/user-controller.js');
 
+// fc = friendship controller
+// I like having to use fc.functionName (instead of just functionName) so that I can easily tell
+// that I'm using a function from another file
 const fc = require('../../controllers/friends-controller.js');
 
-//Set up GET all ahd POST at /api/users
+// /api/users
 router
     .route('/')
     .get(uc.getAllUser)
     .post(uc.createUser);
 
-//Set up GET one, PUT, and DELETE at /api/users/:id
+// /api/users/:id
 router
     .route('/:id')
     .get(uc.getUserById)
     .put(uc.updateUser)
     .delete(uc.deleteUser);    
 
-// Set up POST to create a friendship, DELETE to delete a friendship at /api/users/:userId/friends/:friendId
+// /api/users/:userId/friends/:friendId
 router
     .route('/:userId/friends/:friendId')
     .post(fc.createFriendship)

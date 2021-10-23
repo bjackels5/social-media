@@ -1,6 +1,11 @@
 const { User, Thought } = require('../models');
 
 const userController = {
+    
+    // get all users with their thoughts populated. Do NOT populate the friend list, just let the IDs be shown. I wanted
+    // to make it show the friends usernames, but I could not find a way to suppress the friendCount virtual. I don't want
+    // the entire info of the friends when loading ALL users, that would just be too much data and too unwieldy. But googling
+    // how to suppress virtuals from running when using .populate specifically told me that it can't be done. Alrighty, then.
     getAllUser(req, res) {
         User.find({})
             .populate({
@@ -8,10 +13,6 @@ const userController = {
                 select: '-__v'
             })
             .sort({username: "asc"})
-            // .populate({
-            //     path: 'friends',
-            //     select: '-__v'
-            // })
             .select('-__v')
             .then(dbData => res.json(dbData))
             .catch(err => {
@@ -20,6 +21,8 @@ const userController = {
             });
     },
 
+    // get one user with their thoughts and friends populated. Since it's just one user, it's ok to populate the
+    // friend list
     getUserById({params}, res) {
         User.findOne({_id: params.id })
         .populate({
@@ -50,7 +53,7 @@ const userController = {
             .catch(err => res.status(400).json(err));
     },
 
-    // update user by id
+    // update user by id: it's really just the username or email that can be updated this way
     updateUser({params, body}, res) {
         User.findOneAndUpdate({_id: params.id}, body, { new: true, runValidators: true })
         .then(dbData => {
@@ -64,6 +67,7 @@ const userController = {
         .catch(err => ers.status(400).json(err));
     },
 
+    // delete a user, including removing them from all friend arrays and removing all of the user's thoughts from the dataabase.
     deleteUser({params}, res) {
         User.findOneAndDelete({ _id: params.id})
         .then(dbData => {
